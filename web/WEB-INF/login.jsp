@@ -13,7 +13,8 @@
     </head>
     <body>
         <h1>Login</h1>
-        <br>
+        ${logoutsuccess}
+        <br><br>
         <form action="login" method="post">
         Username: <input type="text" name="userName">
         <br>
