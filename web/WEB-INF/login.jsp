@@ -14,12 +14,13 @@
     <body>
         <h1>Login</h1>
         <br>
-        <form>
+        <form action="login" method="post">
         Username: <input type="text" name="userName">
         <br>
         Password: <input type="text" name="password">
         <br>
         <input type="submit" value="Log in" name="loginBtn" />
         </form>
+        ${error} 
     </body>
 </html>

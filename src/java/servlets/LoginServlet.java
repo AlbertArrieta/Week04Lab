@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String un = request.getParameter("username");
+        String un = request.getParameter("userName");
         String pwd = request.getParameter("password");
         
         
@@ -83,10 +83,11 @@ public class LoginServlet extends HttpServlet {
         AccountService as = new AccountService();
         User currentUser = as.login(un, pwd);
         
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
          session.setAttribute("loggedIn", currentUser.getName());
-        
          response.sendRedirect("home");   
+        
+         
         
               
         
