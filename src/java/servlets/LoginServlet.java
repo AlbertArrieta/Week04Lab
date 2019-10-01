@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.AccountService;
+import models.User;
 
 /**
  *
@@ -56,8 +59,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
-                .forward(request, response);
+             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                    .forward(request, response);
     }
 
     /**
@@ -71,7 +74,22 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String un = request.getParameter("username");
+        String pwd = request.getParameter("password");
+        
+        
+        
+        AccountService as = new AccountService();
+        User currentUser = as.login(un, pwd);
+        
+        HttpSession session = request.getSession();
+         session.setAttribute("loggedIn", currentUser.getName());
+        
+         response.sendRedirect("home");   
+        
+              
+        
     }
 
     /**

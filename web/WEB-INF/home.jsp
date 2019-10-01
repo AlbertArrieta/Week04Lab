@@ -14,7 +14,6 @@
     <body>
         <h1>Home Page</h1>
         <br>
-        <h2>Hello ______</h2>
-        <br>
+        <h2>Hello ${name}.</h2>
     </body>
 </html>
