@@ -9,16 +9,14 @@ package models;
  *
  * @author 785264
  */
-
-
-
 import java.io.Serializable;
 
 public class User implements Serializable {
+
     private String name;
     private String password;
-    
-    public User(String name, String password){
+
+    public User(String name, String password) {
         this.name = name;
         this.password = password;
     }
@@ -38,6 +36,5 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
 }

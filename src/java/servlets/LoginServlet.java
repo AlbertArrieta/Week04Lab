@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
@@ -59,22 +59,26 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-            String logout = request.getParameter("logout");
-            HttpSession session = request.getSession();
-            if(logout == null){
+
+        String logout = request.getParameter("logout");
+        HttpSession session = request.getSession();
+        String loggedin = (String) session.getAttribute("name");
+
+        if (logout == null) {
+
+            if (loggedin != null) {
+                response.sendRedirect("home");
+            } else {
                 getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
-                    .forward(request, response);
+                        .forward(request, response);
             }
-            
-            else if (logout.equals("")){
-                session.invalidate();
-                request.setAttribute("logoutsuccess", "You have logged out");
-                 getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+        } else if (logout.equals("")) {
+            session.invalidate();
+            request.setAttribute("logoutsuccess", "You have logged out");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                     .forward(request, response);
-            }
-        
-             
+        }
+
     }
 
     /**
@@ -88,29 +92,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String un = request.getParameter("userName");
         String pwd = request.getParameter("password");
-        
-        
-        
+
         AccountService as = new AccountService();
         User currentUser = as.login(un, pwd);
-        
-        if(currentUser == null){
-             request.setAttribute("error", "Access DENIED");
+
+        if (currentUser == null) {
+            request.setAttribute("error", "Access DENIED");
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
-                .forward(request, response);
+                    .forward(request, response);
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("loggedIn", currentUser.getName());
+            response.sendRedirect("home");
         }
-        else{
-         HttpSession session = request.getSession();
-         session.setAttribute("loggedIn", currentUser.getName());
-         response.sendRedirect("home");   
-        }
-         
-        
-              
-        
+
     }
 
     /**
