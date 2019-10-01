@@ -83,10 +83,16 @@ public class LoginServlet extends HttpServlet {
         AccountService as = new AccountService();
         User currentUser = as.login(un, pwd);
         
+        if(currentUser == null){
+             request.setAttribute("error", "Access DENIED");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
+                .forward(request, response);
+        }
+        else{
          HttpSession session = request.getSession();
          session.setAttribute("loggedIn", currentUser.getName());
          response.sendRedirect("home");   
-        
+        }
          
         
               
